@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="review-page">
+
+    <div class="review-header">
+
+        <h1>🔍 Question Review</h1>
+
+        <p>
+            {{ result.language }} Quiz
+        </p>
+
+        <div class="review-score">
+            Score:
+            <strong>
+                {{ result.score }} / {{ result.total }}
+            </strong>
+        </div>
+
+    </div>
+
+
+    {% for answer in answers %}
+
+    <div class="review-card
+        {% if answer.is_correct %}
+            review-correct
+        {% else %}
+            review-wrong
+        {% endif %}">
+
+        <div class="review-question-header">
+
+            <h3>
+                Question {{ answer.question_number }}
+            </h3>
+
+            {% if answer.is_correct %}
+
+                <span class="review-status correct-status">
+                    ✓ Correct
+                </span>
+
+            {% else %}
+
+                <span class="review-status wrong-status">
+                    ✗ Incorrect
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <h2>
+            {{ answer.question }}
+        </h2>
+
+
+        <div class="answer-section">
+
+            <div class="your-answer">
+
+                <strong>Your Answer:</strong>
+
+                {% if answer.selected_answer %}
+
+                    <span>
+                        {{ answer.selected_answer }}
+                    </span>
+
+                {% else %}
+
+                    <span class="not-answered">
+                        Not Answered
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="correct-answer">
+
+                <strong>Correct Answer:</strong>
+
+                <span>
+                    {{ answer.correct_answer }}
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+
+    <div class="review-actions">
+
+        <a
+            href="{{ url_for('result', result_id=result.id) }}"
+            class="button secondary"
+        >
+            ← Back to Result
+        </a>
+
+        <a
+            href="{{ url_for('home') }}"
+            class="button"
+        >
+            🏠 Home
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

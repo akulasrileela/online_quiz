@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+
+    <h1>
+        Welcome, {{ session["name"] }} 👋
+    </h1>
+
+    <p>
+        Select a programming language
+        and start your quiz.
+    </p>
+
+</section>
+
+
+<h2>
+    Choose Programming Language
+</h2>
+
+
+<div class="language-grid">
+
+{% for language in languages %}
+
+<a
+    href="{{ url_for('quiz',
+    language=language) }}"
+    class="language-card"
+>
+
+    {% if language == "Python" %}
+
+        <div class="language-icon">🐍</div>
+
+    {% elif language == "Java" %}
+
+        <div class="language-icon">☕</div>
+
+    {% elif language == "C" %}
+
+        <div class="language-icon">🔵</div>
+
+    {% elif language == "C++" %}
+
+        <div class="language-icon">⚡</div>
+
+    {% elif language == "JavaScript" %}
+
+        <div class="language-icon">🌐</div>
+
+    {% else %}
+
+        <div class="language-icon">💻</div>
+
+    {% endif %}
+
+
+    <h3>
+        {{ language }}
+    </h3>
+
+    <span>
+        Start Quiz →
+    </span>
+
+</a>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="result-box">
+
+    <div class="result-icon">
+        🎉
+    </div>
+
+    <h1>Quiz Completed!</h1>
+
+    <h2>{{ result.name }}</h2>
+
+    <p>
+        {{ result.language }} Programming Quiz
+    </p>
+
+
+    <div class="big-score">
+        {{ result.score }} / {{ result.total }}
+    </div>
+
+
+    <div class="result-grid">
+
+        <div>
+            <strong>
+                {{ result.correct }}
+            </strong>
+
+            <span>
+                Correct
+            </span>
+        </div>
+
+
+        <div>
+            <strong>
+                {{ result.incorrect }}
+            </strong>
+
+            <span>
+                Incorrect
+            </span>
+        </div>
+
+
+        <div>
+            <strong>
+                {{ result.percentage }}%
+            </strong>
+
+            <span>
+                Percentage
+            </span>
+        </div>
+
+    </div>
+
+
+    <p>
+        Certificate ID:
+        <strong>
+            {{ result.certificate_id }}
+        </strong>
+    </p>
+
+
+    <div class="result-actions">
+
+        <a
+            class="button"
+            href="{{ url_for('review', result_id=result.id) }}"
+        >
+            🔍 Review Answers
+        </a>
+
+
+        <a
+            class="button"
+            href="{{ url_for('certificate', result_id=result.id) }}"
+        >
+            📜 Download Certificate
+        </a>
+
+
+        <a
+            class="button secondary"
+            href="{{ url_for('home') }}"
+        >
+            🏠 Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

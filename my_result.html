@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-heading">
+
+    <p class="quiz-label">
+        DASHBOARD
+    </p>
+
+    <h1>
+        My Quiz Results
+    </h1>
+
+    <p>
+        Review your previous quiz attempts
+        and certificates.
+    </p>
+
+</div>
+
+
+<div class="results-summary">
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            📝
+        </div>
+
+        <strong>
+            {{ results|length }}
+        </strong>
+
+        <span>
+            Quiz Attempts
+        </span>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            🏆
+        </div>
+
+        <strong>
+            {{ results|length }}
+        </strong>
+
+        <span>
+            Certificates
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Language</th>
+
+<th>Correct</th>
+
+<th>Incorrect</th>
+
+<th>Score</th>
+
+<th>Percentage</th>
+
+<th>Date</th>
+
+<th>Certificate</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+{% for result in results %}
+
+<tr>
+
+<td>
+    <strong>
+        {{ result.language }}
+    </strong>
+</td>
+
+<td>
+    <span class="correct-text">
+        {{ result.correct }}
+    </span>
+</td>
+
+<td>
+    <span class="incorrect-text">
+        {{ result.incorrect }}
+    </span>
+</td>
+
+<td>
+
+    <span class="score-badge">
+        {{ result.score }}/{{ result.total }}
+    </span>
+
+</td>
+
+<td>
+
+    <strong>
+        {{ result.percentage }}%
+    </strong>
+
+</td>
+
+<td>
+    {{ result.created_at }}
+</td>
+
+<td>
+
+<a
+    class="download-link"
+    href="{{ url_for(
+        'certificate',
+        result_id=result.id
+    ) }}"
+>
+    📜 Download
+</a>
+
+</td>
+
+</tr>
+
+
+{% else %}
+
+<tr>
+
+<td colspan="7">
+
+    <div class="empty-state">
+
+        <div>
+            📝
+        </div>
+
+        <h3>
+            No quiz attempts yet
+        </h3>
+
+        <p>
+            Take your first quiz to see your
+            results here.
+        </p>
+
+        <a
+            class="button"
+            href="{{ url_for('home') }}"
+        >
+            Start a Quiz
+        </a>
+
+    </div>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

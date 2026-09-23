@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>QuizMaster</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<nav>
+
+    <a href="{{ url_for('home') }}" class="logo">
+        💻 QUIZ<span>MASTER</span>
+    </a>
+
+
+    {% if session.get("user_id") %}
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('home') }}">
+            Home
+        </a>
+
+        <a href="{{ url_for('my_results') }}">
+            My Results
+        </a>
+<a href="{{ url_for('leaderboard') }}">
+    🏆 Leaderboard
+</a>
+
+
+        <a href="{{ url_for('admin_results') }}">
+            Participants
+        </a>
+
+
+        <!-- Theme Selector -->
+
+        <select
+            id="theme-selector"
+            class="theme-selector"
+            onchange="changeTheme(this.value)"
+        >
+
+            <option value="default">
+                🌊 Ocean
+            </option>
+
+            <option value="dark">
+                🌙 Dark
+            </option>
+
+            <option value="green">
+                🌿 Forest
+            </option>
+
+            <option value="purple">
+                💜 Purple
+            </option>
+
+            <option value="sunset">
+                🌅 Sunset
+            </option>
+
+        </select>
+
+
+        <a href="{{ url_for('logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</nav>
+
+
+<main>
+
+    {% with messages = get_flashed_messages() %}
+
+        {% for message in messages %}
+
+            <div class="flash">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<footer>
+
+    <div class="footer-logo">
+        💻 QUIZMASTER
+    </div>
+
+    <p>
+        Learn • Play • Improve
+    </p>
+
+    <p class="copyright">
+        © 2026 QuizMaster
+    </p>
+
+</footer>
+
+
+<script>
+
+function changeTheme(theme) {
+
+    document.body.className = "";
+
+    if (theme !== "default") {
+
+        document.body.classList.add(
+            "theme-" + theme
+        );
+
+    }
+
+    localStorage.setItem(
+        "quizTheme",
+        theme
+    );
+
+}
+
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const savedTheme =
+            localStorage.getItem("quizTheme");
+
+        if (savedTheme) {
+
+            document.getElementById(
+                "theme-selector"
+            ).value = savedTheme;
+
+            changeTheme(savedTheme);
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

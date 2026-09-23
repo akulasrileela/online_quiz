@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-heading">
+
+    <p class="quiz-label">
+        ADMIN DASHBOARD
+    </p>
+
+    <h1>
+        Participant Details
+    </h1>
+
+    <p>
+        View quiz participation and performance.
+    </p>
+
+</div>
+
+
+<div class="admin-summary">
+
+    <div class="admin-card">
+
+        <span>
+            👥
+        </span>
+
+        <strong>
+            {{ results|length }}
+        </strong>
+
+        <p>
+            Quiz Attempts
+        </p>
+
+    </div>
+
+
+    <div class="admin-card">
+
+        <span>
+            📝
+        </span>
+
+        <strong>
+            {{ results|length }}
+        </strong>
+
+        <p>
+            Participants
+        </p>
+
+    </div>
+
+
+    <div class="admin-card">
+
+        <span>
+            🏆
+        </span>
+
+        <strong>
+            QuizMaster
+        </strong>
+
+        <p>
+            Admin Panel
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>Language</th>
+
+<th>Correct</th>
+
+<th>Incorrect</th>
+
+<th>Score</th>
+
+<th>Percentage</th>
+
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+{% for result in results %}
+
+<tr>
+
+<td>
+    <strong>
+        {{ result.name }}
+    </strong>
+</td>
+
+<td>
+    {{ result.email }}
+</td>
+
+<td>
+    <span class="language-badge">
+        {{ result.language }}
+    </span>
+</td>
+
+<td>
+    <span class="correct-text">
+        {{ result.correct }}
+    </span>
+</td>
+
+<td>
+    <span class="incorrect-text">
+        {{ result.incorrect }}
+    </span>
+</td>
+
+<td>
+    <span class="score-badge">
+        {{ result.score }}/{{ result.total }}
+    </span>
+</td>
+
+<td>
+    <strong>
+        {{ result.percentage }}%
+    </strong>
+</td>
+
+<td>
+    {{ result.created_at }}
+</td>
+
+</tr>
+
+
+{% else %}
+
+<tr>
+
+<td colspan="8">
+
+    <div class="empty-state">
+
+        <div>
+            👥
+        </div>
+
+        <h3>
+            No participants yet
+        </h3>
+
+        <p>
+            Quiz participation will appear here.
+        </p>
+
+    </div>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

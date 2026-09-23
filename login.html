@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="auth-box">
+
+    <div class="auth-icon">
+        🔐
+    </div>
+
+    <p class="quiz-label">
+        QUIZMASTER
+    </p>
+
+    <h1>
+        Welcome Back
+    </h1>
+
+    <p>
+        Login to continue your quiz journey.
+    </p>
+
+
+    <form method="POST">
+
+        <label>
+            Email Address
+        </label>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+        >
+
+
+        <label>
+            Password
+        </label>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+        >
+
+
+        <button type="submit">
+            Login →
+        </button>
+
+    </form>
+
+
+    <p class="auth-footer">
+
+        Don't have an account?
+
+        <a href="{{ url_for('register') }}">
+            Create one
+        </a>
+
+    </p>
+
+</div>
+
+{% endblock %}

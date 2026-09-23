@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="quiz-container">
+
+    <div class="quiz-header">
+
+        <div>
+            <p class="quiz-label">PROGRAMMING QUIZ</p>
+
+            <h1>{{ language }} Quiz</h1>
+        </div>
+
+        <div class="question-counter">
+
+            Question
+            <strong id="question-number">1</strong>
+            of {{ questions|length }}
+
+            <div class="timer">
+                ⏱️ <span id="timer">20</span>s
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="progress-container">
+
+        <div
+            class="progress-bar"
+            id="progress-bar">
+        </div>
+
+    </div>
+
+
+    <form method="POST" id="quiz-form">
+
+        {% for question in questions %}
+
+            {% set q_index = loop.index0 %}
+
+            <div
+                class="question-box quiz-question"
+                id="question-{{ q_index }}"
+            >
+
+                <div class="question-number">
+                    Question {{ loop.index }}
+                </div>
+
+
+                <h2>
+                    {{ question[0] }}
+                </h2>
+
+
+                <div class="options">
+
+                    {% for option in question[1] %}
+
+                        <label class="option">
+
+                            <input
+                                type="radio"
+                                name="q{{ q_index }}"
+                                value="{{ option }}"
+                            >
+
+                            <span>
+                                {{ option }}
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="quiz-buttons">
+
+                    {% if q_index > 0 %}
+
+                        <button
+                            type="button"
+                            class="secondary-button"
+                            onclick="previousQuestion()"
+                        >
+                            ← Previous
+                        </button>
+
+                    {% endif %}
+
+
+                    {% if q_index < questions|length - 1 %}
+
+                        <button
+                            type="button"
+                            onclick="nextQuestion()"
+                        >
+                            Next →
+                        </button>
+
+                    {% else %}
+
+                        <button
+                            type="submit"
+                            class="submit-button"
+                        >
+                            Submit Quiz ✓
+                        </button>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </form>
+
+</div>
+
+
+<script>
+
+let currentQuestion = 0;
+
+const TIME_PER_QUESTION = 20;
+
+let timeLeft = TIME_PER_QUESTION;
+
+let timerInterval;
+
+
+const questions =
+    document.querySelectorAll(".quiz-question");
+
+const questionNumber =
+    document.getElementById("question-number");
+
+const progressBar =
+    document.getElementById("progress-bar");
+
+const timer =
+    document.getElementById("timer");
+
+
+function showQuestion(index) {
+
+    questions.forEach(function(question) {
+
+        question.style.display = "none";
+
+    });
+
+
+    questions[index].style.display = "block";
+
+
+    questionNumber.textContent =
+        index + 1;
+
+
+    const progress =
+        ((index + 1) / questions.length) * 100;
+
+
+    progressBar.style.width =
+        progress + "%";
+
+
+    startTimer();
+}
+
+
+function startTimer() {
+
+    clearInterval(timerInterval);
+
+    timeLeft = TIME_PER_QUESTION;
+
+    timer.textContent = timeLeft;
+
+
+    timerInterval = setInterval(function() {
+
+        timeLeft--;
+
+        timer.textContent = timeLeft;
+
+
+        if (timeLeft <= 0) {
+
+            clearInterval(timerInterval);
+
+            moveToNextQuestion();
+
+        }
+
+    }, 1000);
+}
+
+
+function moveToNextQuestion() {
+
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        showQuestion(currentQuestion);
+
+    }
+
+    else {
+
+        document
+            .getElementById("quiz-form")
+            .submit();
+
+    }
+
+}
+
+
+function nextQuestion() {
+
+    const current =
+        questions[currentQuestion];
+
+
+    const selected =
+        current.querySelector(
+            'input[type="radio"]:checked'
+        );
+
+
+    if (!selected) {
+
+        alert(
+            "Please select an answer before continuing."
+        );
+
+        return;
+
+    }
+
+
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        showQuestion(currentQuestion);
+
+    }
+
+}
+
+
+function previousQuestion() {
+
+    if (currentQuestion > 0) {
+
+        currentQuestion--;
+
+        showQuestion(currentQuestion);
+
+    }
+
+}
+
+
+document
+    .getElementById("quiz-form")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            for (
+                let i = 0;
+                i < questions.length;
+                i++
+            ) {
+
+                const selected =
+                    questions[i].querySelector(
+                        'input[type="radio"]:checked'
+                    );
+
+
+                if (!selected) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please answer all questions before submitting."
+                    );
+
+                    currentQuestion = i;
+
+                    showQuestion(currentQuestion);
+
+                    return;
+
+                }
+
+            }
+
+        }
+    );
+
+
+showQuestion(0);
+
+</script>
+
+{% endblock %}

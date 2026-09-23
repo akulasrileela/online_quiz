@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="leaderboard-page">
+
+    <div class="leaderboard-header">
+
+        <h1>🏆 Leaderboard</h1>
+
+        <p>
+            See the highest quiz scores.
+        </p>
+
+    </div>
+
+
+    <div class="leaderboard-filter">
+
+        <form method="GET">
+
+            <label for="language">
+                Choose Language:
+            </label>
+
+            <select
+                name="language"
+                id="language"
+                onchange="this.form.submit()"
+            >
+
+                <option
+                    value="All"
+                    {% if selected_language == "All" %}
+                        selected
+                    {% endif %}
+                >
+                    All Languages
+                </option>
+
+
+                {% for language in languages %}
+
+                <option
+                    value="{{ language }}"
+                    {% if selected_language == language %}
+                        selected
+                    {% endif %}
+                >
+                    {{ language }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </form>
+
+    </div>
+
+
+    <div class="leaderboard-table-container">
+
+        <table class="leaderboard-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Rank</th>
+
+                    <th>Participant</th>
+
+                    <th>Language</th>
+
+                    <th>Score</th>
+
+                    <th>Percentage</th>
+
+                    <th>Date</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for result in results %}
+
+                <tr>
+
+                    <td>
+
+                        {% if loop.index == 1 %}
+
+                            🥇
+
+                        {% elif loop.index == 2 %}
+
+                            🥈
+
+                        {% elif loop.index == 3 %}
+
+                            🥉
+
+                        {% else %}
+
+                            {{ loop.index }}
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+                        <strong>
+                            {{ result.name }}
+                        </strong>
+                    </td>
+
+
+                    <td>
+                        {{ result.language }}
+                    </td>
+
+
+                    <td>
+                        {{ result.score }} / {{ result.total }}
+                    </td>
+
+
+                    <td>
+
+                        <strong>
+                            {{ result.percentage }}%
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+                        {{ result.created_at }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="empty-leaderboard"
+                    >
+                        No quiz results yet.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
